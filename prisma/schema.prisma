@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Movie {
+  id         String      @id @default(uuid())
+  attributes Attribute[]
+}
+
+enum Kind {
+  BONUS
+  MALUS
+}
+
+model Attribute {
+  id      String @id @default(uuid())
+  kind    Kind
+  description String
+
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [id])
+}
