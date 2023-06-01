@@ -51,9 +51,9 @@ export default async function MovieWrapper({
       <h1>{movie.name}</h1>
 
       <section id="attributes" className="flex flex-row justify-around">
-        <article id="bonuses">
+        <article id="bonuses" className="flex-1">
           <h2>Bonuses</h2>
-          <ul>
+          <ul className="list-disc">
             {movie.attributes
               .filter((attribute) => attribute.kind === "BONUS")
               .map((bonus) => {
@@ -65,9 +65,9 @@ export default async function MovieWrapper({
               })}
           </ul>
         </article>
-        <article id="maluses">
+        <article id="maluses" className="flex-1">
           <h2>Maluses</h2>
-          <ul>
+          <ul className="list-disc">
             {movie.attributes
               .filter((attribute) => attribute.kind === "MALUS")
               .map((malus) => {
