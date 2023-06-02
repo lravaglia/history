@@ -1,5 +1,10 @@
 import prisma from "@/src/db";
 import { NextResponse } from "next/server";
+import zod from "zod"
+
+const post = zod.object({
+  name: zod.string(),
+});
 
 export async function POST(request: Request) {
   const authorization = request.headers.get("Authorization");
@@ -7,7 +12,8 @@ export async function POST(request: Request) {
   if (type != "Bearer" || slug != process.env["BEARER_TOKEN"]) {
     return NextResponse.error();
   } 
-  const data = await request.json()
+  const json = await request.json()
+  const data = post.parse(json)
 
   const newMovie = await prisma.movie.create({ data })
 
