@@ -7,7 +7,7 @@ const post = zod.object({
   description: zod.string(),
   movie: zod.object({
     connect: zod.object({
-      id: zod.string(),
+      id: zod.string().uuid(),
     }),
   }),
 });
