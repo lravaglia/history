@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-const getMovies = () => {
+const getMovies = async () => {
   "use server";
 
-  return new PrismaClient().movie.findMany({
+  return await new PrismaClient().movie.findMany({
     select: { id: true, name: true },
   });
 };
