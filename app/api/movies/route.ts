@@ -1,5 +1,5 @@
+import prisma from "@/src/db";
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 
 export async function POST(request: Request) {
   const authorization = request.headers.get("Authorization");
@@ -8,17 +8,10 @@ export async function POST(request: Request) {
     return NextResponse.error();
   } 
   const data = await request.json()
-  const prisma = new PrismaClient()
 
   const newMovie = await prisma.movie.create({ data })
 
   return NextResponse.json(newMovie)
 }
 
-export async function GET() {
-  const prisma = new PrismaClient()
-
-  const movies = await prisma.movie.findMany()
-
-  return NextResponse.json(movies)
-}
+export const GET = async () => NextResponse.json(await prisma.movie.findMany())

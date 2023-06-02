@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/src/db";
 import { NextResponse } from "next/server";
 import ReactMarkdown from "react-markdown";
 
@@ -10,7 +10,7 @@ export default async function MovieWrapper({
   const getMovie = async (id: string) => {
     "use server";
 
-    return await new PrismaClient().movie.findUnique({
+    return await prisma.movie.findUnique({
       where: {
         id,
       },

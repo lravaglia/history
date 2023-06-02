@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/src/db";
 
 const Home = async () => {
   const getMovies = async () => {
     "use server";
 
-    return await new PrismaClient().movie.findMany({
+    return await prisma.movie.findMany({
       select: { id: true, name: true },
     });
   };

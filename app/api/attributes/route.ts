@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import prisma from "@/src/db";
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
@@ -8,17 +8,10 @@ export async function POST(request: Request) {
     return NextResponse.error();
   } 
   const data = await request.json()
-  const prisma = new PrismaClient()
 
   const newMovie = await prisma.attribute.create({ data })
 
   return NextResponse.json(newMovie)
 }
 
-export async function GET() {
-  const prisma = new PrismaClient()
-
-  const movies = await prisma.attribute.findMany()
-
-  return NextResponse.json(movies)
-}
+export const GET = async () => NextResponse.json(await prisma.attribute.findMany())
