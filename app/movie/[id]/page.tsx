@@ -1,17 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 import ReactMarkdown from "react-markdown";
 
-type Kind = "BONUS" | "MALUS";
+const getMovie = (id: string) => {
+  "use server";
 
-type Attribute = {
-  id: string;
-  description: string;
-  kind: Kind;
-};
-
-type Movie = {
-  name: string;
-  attributes: Attribute[];
+  return new PrismaClient().movie.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      attributes: true,
+    },
+  });
 };
 
 export default async function MovieWrapper({
@@ -19,31 +20,10 @@ export default async function MovieWrapper({
 }: {
   params: { id: string };
 }) {
-  async function getMovie(id: string) {
-    "use server";
-
-    const prisma = new PrismaClient();
-
-    const movie = await prisma.movie.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        attributes: true,
-      },
-    });
-
-    return movie;
-  }
-
-  if (!id) {
-    return null;
-  }
-
   const movie = await getMovie(id);
 
   if (!movie) {
-    return null;
+    return NextResponse.redirect("/404");
   }
 
   return (

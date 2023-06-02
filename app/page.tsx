@@ -1,23 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 
-export default async function Home() {
-  const prisma = new PrismaClient();
+const getMovies = () => {
+  "use server";
 
-  const movies = await prisma.movie.findMany();
+  return new PrismaClient().movie.findMany({
+    select: { id: true, name: true },
+  });
+};
 
-  return (
-    <main>
-      <h1>Historical Movie Accuracy</h1>
+const Home = async () => (
+  <main>
+    <h1>Historical Movie Accuracy</h1>
 
-      <ul className="list-disc">
-        {movies.map((movie) => {
-          return (
-            <li key={movie.id}>
-              <a href={`/movie/${movie.id}`}>{movie.name}</a>
-            </li>
-          );
-        })}
-      </ul>
-    </main>
-  );
-}
+    <ul className="list-disc">
+      {(await getMovies()).map(({ id, name }) => (
+        <li key={id}>
+          <a href={`/movie/${id}`}>{name}</a>
+        </li>
+      ))}
+    </ul>
+  </main>
+);
+
+export default Home;
