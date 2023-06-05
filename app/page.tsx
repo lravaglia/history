@@ -4,7 +4,7 @@ const Home = async () => {
   const getMovies = async () => {
     "use server";
 
-    return await prisma.movie.findMany({
+    return prisma.movie.findMany({
       select: { id: true, name: true },
     });
   };

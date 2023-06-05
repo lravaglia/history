@@ -13,12 +13,6 @@ const post = zod.object({
 });
 
 export async function POST(request: Request) {
-  const authorization = request.headers.get("Authorization");
-  const [type, slug] = authorization?.split(" ")!;
-  if (type != "Bearer" || slug != process.env["BEARER_TOKEN"]) {
-    return NextResponse.error();
-  }
-
   const json = await request.json();
   const data = post.parse(json);
 

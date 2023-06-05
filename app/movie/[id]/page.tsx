@@ -10,7 +10,7 @@ export default async function MovieWrapper({
   const getMovie = async (id: string) => {
     "use server";
 
-    return await prisma.movie.findUnique({
+    return prisma.movie.findUnique({
       where: {
         id,
       },
