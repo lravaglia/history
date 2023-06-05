@@ -1,4 +1,5 @@
 import prisma from "@/src/db";
+import Link from "next/link";
 
 const Home = async () => {
   const getMovies = async () => {
@@ -16,7 +17,7 @@ const Home = async () => {
       <ul className="list-disc">
         {(await getMovies()).map(({ id, name }) => (
           <li key={id}>
-            <a href={`/movie/${id}`}>{name}</a>
+            <Link href={`/movie/${id}`}>{name}</Link>
           </li>
         ))}
       </ul>
