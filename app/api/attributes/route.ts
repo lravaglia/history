@@ -5,18 +5,20 @@ import zod from "zod";
 const post = zod.object({
   kind: zod.enum(["MALUS", "BONUS"]),
   description: zod.string(),
-  movie: zod.object({
-    connect: zod.object({
-      id: zod.string().uuid(),
-    }),
-  }),
+  movie: zod.string().uuid(),
 });
 
 export async function POST(request: Request) {
   const json = await request.json();
-  const data = post.parse(json);
+  const { kind, description, movie: id } = post.parse(json);
 
-  const newMovie = await prisma.attribute.create({ data });
+  const newMovie = await prisma.attribute.create({
+    data: {
+      kind,
+      description,
+      movie: { connect: { id } },
+    },
+  });
 
   return NextResponse.json(newMovie);
 }
